@@ -38,10 +38,21 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      body: Container(
+        alignment: Alignment.topCenter,
+        child: TextButton(
+          onPressed: () {
+            communicationManager.establishConnection();
+          },
+          child: Text("Establish connection"),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Floating Action Button pressed");
-          communicationManager.sendInstructions();
+          // communicationManager.establishConnection();
+          communicationManager.establishConnection();
+          communicationManager.sendMessage("Hello there sent");
           // mainConnection();
         },
         child: Icon(Icons.wifi),
@@ -68,9 +79,8 @@ void handleConnection(Socket client) {
 
   // listen for events from the client
   client.listen(
-
     // handle data from the client
-        (Uint8List data) async {
+    (Uint8List data) async {
       await Future.delayed(Duration(seconds: 1));
       final message = String.fromCharCodes(data);
       if (message == 'Knock, knock.') {
