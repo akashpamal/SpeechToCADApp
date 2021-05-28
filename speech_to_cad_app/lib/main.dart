@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:speech_to_cad_app/communication_manager.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -30,23 +32,30 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  CommunicationManager communicationManager = CommunicationManager();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          print("Floating Action Button pressed");
+          communicationManager.sendInstructions();
+          // mainConnection();
+        },
         child: Icon(Icons.wifi),
       ),
     );
   }
 }
 
-
 void mainConnection() async {
+  print("Binding socket");
   // bind the socket server to an address and port
   final server = await ServerSocket.bind(InternetAddress.anyIPv4, 4567);
 
+  print("Listening for connection");
   // listen for clent connections to the server
   server.listen((client) {
     handleConnection(client);
