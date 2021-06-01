@@ -38,20 +38,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        alignment: Alignment.topCenter,
-        child: TextButton(
-          onPressed: () {
-            communicationManager.establishConnection();
-          },
-          child: Text("Establish connection"),
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Floating Action Button pressed");
           // communicationManager.establishConnection();
-          communicationManager.establishConnection();
           communicationManager.sendMessage("Hello there sent");
           // mainConnection();
         },
@@ -60,49 +50,49 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-void mainConnection() async {
-  print("Binding socket");
-  // bind the socket server to an address and port
-  final server = await ServerSocket.bind(InternetAddress.anyIPv4, 4567);
-
-  print("Listening for connection");
-  // listen for clent connections to the server
-  server.listen((client) {
-    handleConnection(client);
-  });
-}
-
-void handleConnection(Socket client) {
-  print('Connection from'
-      ' ${client.remoteAddress.address}:${client.remotePort}');
-
-  // listen for events from the client
-  client.listen(
-    // handle data from the client
-    (Uint8List data) async {
-      await Future.delayed(Duration(seconds: 1));
-      final message = String.fromCharCodes(data);
-      if (message == 'Knock, knock.') {
-        client.write('Who is there?');
-      } else if (message.length < 10) {
-        client.write('$message who?');
-      } else {
-        client.write('Very funny.');
-        client.close();
-      }
-    },
-
-    // handle errors
-    onError: (error) {
-      print(error);
-      client.close();
-    },
-
-    // handle the client closing the connection
-    onDone: () {
-      print('Client left');
-      client.close();
-    },
-  );
-}
+//
+// void mainConnection() async {
+//   print("Binding socket");
+//   // bind the socket server to an address and port
+//   final server = await ServerSocket.bind(InternetAddress.anyIPv4, 4567);
+//
+//   print("Listening for connection");
+//   // listen for clent connections to the server
+//   server.listen((client) {
+//     handleConnection(client);
+//   });
+// }
+//
+// void handleConnection(Socket client) {
+//   print('Connection from'
+//       ' ${client.remoteAddress.address}:${client.remotePort}');
+//
+//   // listen for events from the client
+//   client.listen(
+//     // handle data from the client
+//     (Uint8List data) async {
+//       await Future.delayed(Duration(seconds: 1));
+//       final message = String.fromCharCodes(data);
+//       if (message == 'Knock, knock.') {
+//         client.write('Who is there?');
+//       } else if (message.length < 10) {
+//         client.write('$message who?');
+//       } else {
+//         client.write('Very funny.');
+//         client.close();
+//       }
+//     },
+//
+//     // handle errors
+//     onError: (error) {
+//       print(error);
+//       client.close();
+//     },
+//
+//     // handle the client closing the connection
+//     onDone: () {
+//       print('Client left');
+//       client.close();
+//     },
+//   );
+// }
