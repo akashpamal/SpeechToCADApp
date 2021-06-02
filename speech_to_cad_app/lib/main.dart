@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-//
+
 // void mainConnection() async {
 //   print("Binding socket");
 //   // bind the socket server to an address and port
