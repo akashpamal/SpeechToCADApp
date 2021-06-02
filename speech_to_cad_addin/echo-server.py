@@ -18,4 +18,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if not data:
                 break
             conn.sendall(data)
-            print('Message received:', str(data))
+            data = data.decode("utf-8")
+            print('Message received:', data)
+            print('Type of message:', type(data))
+            print('Running message:')
+            exec(data)
+            exec("print('is this message working?')")

@@ -33,17 +33,24 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatelessWidget {
   CommunicationManager communicationManager = CommunicationManager();
+  final textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      body: Center(
+        child: TextFormField(
+          controller: textEditingController,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Floating Action Button pressed");
           // communicationManager.establishConnection();
-          communicationManager.sendMessage("Hello there sent");
+          communicationManager.sendMessage(textEditingController.text);
           // mainConnection();
+          // print(textEditingController.text);
         },
         child: Icon(Icons.wifi),
       ),
