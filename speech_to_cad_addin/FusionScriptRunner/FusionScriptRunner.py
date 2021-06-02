@@ -3,19 +3,22 @@
 
 import adsk.core, adsk.fusion, adsk.cam, traceback
 import socket
+# from
 
 def run(context):
     print('Beginning run method')
     ui = None
     try:
         app = adsk.core.Application.get()
-        ui  = app.userInterface
-        ui.messageBox('Hello script')
+        ui = app.userInterface
+        # for i 
+        print('Can fusion print things?')
+        # ui.messageBox('Hello script')
 
         my_communication_manager = CommunicationManager()
 
-        print('Opening socket and listening now...')
-        my_communication_manager.listen_and_execute_incoming_commands() # THERE SHOULD NOT BE ANY COMMANDS AFTER THIS LINE. This method blocks the thread and continues forever or until interrupted
+        # print('Opening socket and listening now...')
+        my_communication_manager.listen_and_execute_incoming_commands(print_method=ui.messageBox) # THERE SHOULD NOT BE ANY COMMANDS AFTER THIS LINE. This method blocks the thread and continues forever or until interrupted
 
     except:
         if ui:
@@ -30,25 +33,26 @@ class CommunicationManager:
         pass
     #!/usr/bin/env python3
 
-    def listen_and_execute_incoming_commands(self):
+    def listen_and_execute_incoming_commands(self, print_method=print):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((CommunicationManager.HOST, CommunicationManager.PORT))
-            print('Server listening')
+            print_method('Server listening')
             s.listen()
             conn, addr = s.accept()
-            print('Server accepted')
+            print_method('Server accepted')
             with conn:
-                print("Connected by", addr)
+                print("Connected by", ', '.join(list([str(elem) for elem in addr]))) # print connection address
                 while True:
                     data = conn.recv(1024)
                     if not data:
                         break
                     conn.sendall(data)
                     data = data.decode("utf-8")
-                    print('Message received:', data)
-                    print('Running message:')
+                    print_method('Message received: ' + data)
+                    print_method('Running message:')
                     try:
                         exec(data)
-                    except Exception:
-                        print('Invalid python command passed through socket:', data)
-                    print()
+                    except Exception as e:
+                        print_method('Invalid python command passed through socket: ' + data)
+                        print_method(e)
+                    # print_method('\n')

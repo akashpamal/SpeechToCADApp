@@ -33,6 +33,7 @@ class CommunicationManager {
           print(error);
           socket.destroy();
         },
+        
 
         // handle server ending connection
         onDone: () {
