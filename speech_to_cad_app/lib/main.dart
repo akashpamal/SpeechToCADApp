@@ -40,8 +40,55 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: TextFormField(
-          controller: textEditingController,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: textEditingController,
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager
+                    .sendMessage("app = adsk.core.Application.get()\n");
+                // communicationManager.sendMessage("exit()");
+              },
+              child: Text("Command 1"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager.sendMessage("ui = app.userInterface\n");
+              },
+              child: Text("Command 2"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager
+                    .sendMessage("design = app.activeProduct\n");
+              },
+              child: Text("Command 3"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager
+                    .sendMessage("rootComp = design.rootComponent\n");
+              },
+              child: Text("Command 4"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager.sendMessage(
+                    "sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)\n");
+              },
+              child: Text("Command 5"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager.sendMessage(
+                    "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))\n");
+              },
+              child: Text("Command 6"),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
