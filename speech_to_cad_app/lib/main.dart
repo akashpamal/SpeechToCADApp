@@ -49,51 +49,64 @@ class HomePage extends StatelessWidget {
             TextButton(
               onPressed: () {
                 communicationManager
-                    .sendMessage("app = adsk.core.Application.get()\n");
+                    .sendMessage("app = adsk.core.Application.get()");
                 // communicationManager.sendMessage("exit()");
               },
               child: Text("Command 1"),
             ),
             TextButton(
               onPressed: () {
-                communicationManager.sendMessage("ui = app.userInterface\n");
+                communicationManager.sendMessage("ui = app.userInterface");
               },
               child: Text("Command 2"),
             ),
             TextButton(
               onPressed: () {
                 communicationManager
-                    .sendMessage("design = app.activeProduct\n");
+                    .sendMessage("design = app.activeProduct");
               },
               child: Text("Command 3"),
             ),
             TextButton(
               onPressed: () {
                 communicationManager
-                    .sendMessage("rootComp = design.rootComponent\n");
+                    .sendMessage("rootComp = design.rootComponent");
               },
               child: Text("Command 4"),
             ),
             TextButton(
               onPressed: () {
                 communicationManager.sendMessage(
-                    "sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)\n");
+                    "sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
               },
               child: Text("Command 5"),
             ),
             TextButton(
               onPressed: () {
                 communicationManager.sendMessage(
-                    "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))\n");
+                    "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
               },
               child: Text("Command 6"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager.sendMessage(
+                    "exit()");
+              },
+              child: Text("exit()"),
+            ),TextButton(
+              onPressed: () {
+                communicationManager.sendMessage(
+                    "break");
+              },
+              child: Text("break"),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Floating Action Button pressed");
+          // print("Floating Action Button pressed");
           // communicationManager.establishConnection();
           communicationManager.sendMessage(textEditingController.text);
           // mainConnection();
