@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  CommunicationManagerClient communicationManager = CommunicationManagerClient();
+  CommunicationManagerClient communicationManager =
+      CommunicationManagerClient();
   final textEditingController = TextEditingController();
 
   @override
@@ -62,8 +63,7 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                communicationManager
-                    .sendMessage("design = app.activeProduct");
+                communicationManager.sendMessage("design = app.activeProduct");
               },
               child: Text("Command 3"),
             ),
@@ -87,24 +87,29 @@ class HomePage extends StatelessWidget {
                     "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
               },
               child: Text("Square Sketch"),
-            ),TextButton(
-                onPressed: () {
-                  communicationManager.sendMessage(
-                      " extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
-                },
-                child: Text("Cube Extrusion"),
-
             ),
             TextButton(
               onPressed: () {
                 communicationManager.sendMessage(
-                    "exit()");
+                    "extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
+              },
+              child: Text("Cube Extrusion"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager.sendMessage("adsk.doEvents()");
+              },
+              child: Text("Refresh screen"),
+            ),
+            TextButton(
+              onPressed: () {
+                communicationManager.sendMessage("exit()");
               },
               child: Text("exit()"),
-            ),TextButton(
+            ),
+            TextButton(
               onPressed: () {
-                communicationManager.sendMessage(
-                    "break");
+                communicationManager.sendMessage("break");
               },
               child: Text("break"),
             ),
