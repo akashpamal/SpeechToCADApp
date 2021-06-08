@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  CommunicationManager communicationManager = CommunicationManager();
+  CommunicationManagerClient communicationManager = CommunicationManagerClient();
   final textEditingController = TextEditingController();
 
   @override

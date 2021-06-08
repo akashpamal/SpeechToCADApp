@@ -8,7 +8,7 @@ import socket, time, asyncio
 def run(context):
     ui = None
     try:
-        communication_manager_object = CommunicationManager()
+        communication_manager_object = CommunicationManagerServer()
         communication_manager_object.listen_and_execute_incoming_commands()
         # app = adsk.core.Application.get()
         # ui = app.userInterface
@@ -34,7 +34,7 @@ def run(context):
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
 
-class CommunicationManager:
+class CommunicationManagerServer:
     HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
     PORT = 4567  # Port to listen on (non-privileged ports are > 1023)
     
@@ -48,7 +48,7 @@ class CommunicationManager:
         rootComp = design.rootComponent
         sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((CommunicationManager.HOST, CommunicationManager.PORT))
+            s.bind((CommunicationManagerServer.HOST, CommunicationManagerServer.PORT))
             # s.setblocking(False)
             print('Server listening')
             s.listen()
@@ -57,8 +57,8 @@ class CommunicationManager:
             print('Server accepted')
             with conn:
                 print("Connected by", addr)
-                while True:
-                    print(time.perf_counter())
+                for i in range(1):
+                    # print(time.perf_counter())
                     print('Waiting for new data:')
                     data = conn.recv(1024)
                     if not data:
@@ -70,7 +70,7 @@ class CommunicationManager:
                         print('Executing message...')
                         exec(data)
                         print('Message finished executing')
-                        print(time.perf_counter())
+                        # print(time.perf_counter())
                         print()
                         # print('Waiting for some time:')
                         # asyncio.sleep(4)
@@ -79,6 +79,7 @@ class CommunicationManager:
                         print('Faced Exception:')
                         print(e)
                         exit()
+        print('Program complete')
 
         
         # while True: # re-establish the server connection after each command. The connection must first be terminated to allow the Fusion API call to process
@@ -103,3 +104,42 @@ class CommunicationManager:
         #                 # print_method('Invalid python command passed through socket: ' + data)
         #                 # print_method(e)
         #             # print_method('\n')
+
+class CommunicationManagerClient:
+    # This is the server side of the socket
+    HOST = "127.0.0.1"  # The server's hostname or IP address
+    PORT = 4567  # The port used by the server
+
+    def __init__(self) -> None:
+        pass
+
+    def listen_and_execute_incoming_commands(self, print_method=print):
+        app = adsk.core.Application.get()
+        ui = app.userInterface
+        design = app.activeProduct
+        rootComp = design.rootComponent
+        sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            print('Connecting...')
+            s.connect((CommunicationManagerClient.HOST, CommunicationManagerClient.PORT))
+            print('Connected')
+
+        while True:
+            print(time.perf_counter())
+            print('Waiting for new data:')
+            data = s.recv(1024)
+
+            print('Message received:', str(data))
+            try:
+                print('Executing message...')
+                exec(data)
+                print('Message finished executing')
+                print(time.perf_counter())
+                print()
+                # print('Waiting for some time:')
+                # asyncio.sleep(4)
+                # print('Finished waiting')
+            except Exception as e:
+                print('Faced Exception:')
+                print(e)
+                exit()
