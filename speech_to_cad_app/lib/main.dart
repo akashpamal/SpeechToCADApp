@@ -86,7 +86,14 @@ class HomePage extends StatelessWidget {
                 communicationManager.sendMessage(
                     "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
               },
-              child: Text("Command 6"),
+              child: Text("Square Sketch"),
+            ),TextButton(
+                onPressed: () {
+                  communicationManager.sendMessage(
+                      " extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
+                },
+                child: Text("Cube Extrusion"),
+
             ),
             TextButton(
               onPressed: () {
