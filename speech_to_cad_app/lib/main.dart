@@ -81,6 +81,12 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                communicationManager.fitCameraView();
+              },
+              child: Text("Fit Camera View"),
+            ),
+            TextButton(
+              onPressed: () {
                 communicationManager.sendMessage("exit()");
               },
               child: Text("exit()"),
@@ -91,12 +97,13 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // print("Floating Action Button pressed");
-          // communicationManager.establishConnection();
-          communicationManager.sendMessage("adsk.doEvents()");
+          communicationManager.refreshView();
+          // communicationManager.sendMessage("adsk.doEvents()");
+          // app.activeViewport.refresh()
           // mainConnection();
           // print(textEditingController.text);
         },
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.build),
       ),
     );
   }

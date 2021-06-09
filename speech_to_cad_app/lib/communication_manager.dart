@@ -5,63 +5,65 @@ import 'dart:typed_data';
 class CommunicationManagerClient {
   // This is the client side of the socket
   Socket? socket = null;
-  bool isConnectionEstablished = false;
 
   CommunicationManagerClient() {
     print('Constructor for SocketClientClass');
-    this._establishConnection();
+    this.establishConnection();
   }
 
-  void _establishConnection() async {
-    if (!this.isConnectionEstablished) {
-      final socket = await Socket.connect('localhost', 4567);
-      print(
-          'Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
-      // socket.asBroadcastStream()
-      this.socket = socket;
-      this.isConnectionEstablished = true;
+  Future<void> establishConnection() async {
+    final socket = await Socket.connect('localhost', 4567);
+    print('Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
+    // socket.asBroadcastStream()
+    this.socket = socket;
 
-      // listen for responses from the server
-      socket.listen(
-        // handle data from the server
-        (Uint8List data) {
-          final serverResponse = String.fromCharCodes(data);
-          print('Server: $serverResponse');
-        },
+    // listen for responses from the server
+    socket.listen(
+      // handle data from the server
+      (Uint8List data) {
+        final serverResponse = String.fromCharCodes(data);
+        print('Server: $serverResponse');
+      },
 
-        // handle errors
-        onError: (error) {
-          print(error);
-          socket.destroy();
-        },
+      // handle errors
+      onError: (error) {
+        print(error);
+        socket.destroy();
+      },
 
-        // handle server ending connection
-        onDone: () {
-          print('Server left.');
-          socket.destroy();
-        },
-      );
-    } else {
-      print("Connection already established. Will not re-establish");
-    }
+      // handle server ending connection
+      onDone: () {
+        print('Server left.');
+        socket.destroy();
+      },
+    );
   }
 
   Future<void> sendMessage(String message) async {
-    if (this.isConnectionEstablished) {
-      print('Client: $message');
-      this.socket!.write(message + "\n");
-      this.socket!.write("adsk.doEvents()");
-    } else {
-      print('Client is not connected');
-    }
+    // await this.establishConnection();
+    this.socket!.write(message + "\n");
+    this.refreshView();
+    print('Messge sent: ' + message);
   }
 
   void createNewDocument() {
     this.sendMessage("app = adsk.core.Application.get()");
     this.sendMessage("ui = app.userInterface");
-    this.sendMessage("doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)");
+    this.sendMessage(
+        "doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)");
     this.sendMessage("design = app.activeProduct");
     this.sendMessage("rootComp = design.rootComponent");
+  }
+
+  void fitCameraView() {
+    this.sendMessage("camera = app.activeViewport.camera");
+    this.sendMessage("camera.isFitView = True");
+    this.sendMessage("app.activeViewport.camera = camera");
+  }
+
+  void refreshView() {
+    // communicationManager.sendMessage("adsk.doEvents()");
+    this.sendMessage("app.activeViewport.refresh()");
   }
 }
 //
