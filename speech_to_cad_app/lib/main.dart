@@ -53,41 +53,45 @@ class HomePage extends StatelessWidget {
               child: Text("Create New Document"),
             ),
             TextButton(
-              onPressed: () {
-                communicationManager.sendMessage(
+              onPressed: () async {
+                await communicationManager.sendMessage("nonlocal sketch");
+                // await Future.delayed(Duration(seconds: 2));
+                await communicationManager.sendMessage(
                     "sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
               },
               child: Text("Start Sketch"),
             ),
             TextButton(
-              onPressed: () {
-                communicationManager.sendMessage(
+              onPressed: () async {
+                await communicationManager.sendMessage("nonlocal rec1");
+                await communicationManager.sendMessage(
                     "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
               },
               child: Text("Square Sketch"),
             ),
             TextButton(
-              onPressed: () {
-                communicationManager.sendMessage(
+              onPressed: () async {
+                await communicationManager.sendMessage("nonlocal extrude");
+                await communicationManager.sendMessage(
                     "extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
               },
               child: Text("Cube Extrusion"),
             ),
             TextButton(
-              onPressed: () {
-                communicationManager.refreshViewUNIMPLEMENTED();
+              onPressed: () async {
+                await communicationManager.refreshViewUNIMPLEMENTED();
               },
               child: Text("Refresh screen"),
             ),
             TextButton(
-              onPressed: () {
-                communicationManager.fitCameraView();
+              onPressed: () async {
+                await communicationManager.fitCameraView();
               },
               child: Text("Fit Camera View"),
             ),
             TextButton(
-              onPressed: () {
-                communicationManager.sendMessage("exit()");
+              onPressed: () async {
+                await communicationManager.sendMessage("exit()");
               },
               child: Text("exit()"),
             ),

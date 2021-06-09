@@ -1,12 +1,16 @@
+print('Starting imports...')
 import adsk.core, adsk.fusion, math, traceback
 import socket, time, asyncio
 import math
+import asyncio
+print('Imports complee')
 
 # Make the client on Fusion360 and the server on the app
 
 def run(context):
     ui = None
     try:
+        print('Starting program...')
         communication_manager_object = CommunicationManagerServer()
         communication_manager_object.listen_and_execute_incoming_commands()
         # app = adsk.core.Application.get()
@@ -28,6 +32,7 @@ def run(context):
 
 
         # Create a new sketch on the xy plane.
+        print('Terminating program...')
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
@@ -39,7 +44,7 @@ class CommunicationManagerServer:
     def __init__(self) -> None:
         pass
 
-    def listen_and_execute_incoming_commands(self, print_method=print):
+    def listen_and_execute_incoming_commands_old(self, print_method=print):
         # setup items
         app = adsk.core.Application.get()
         ui = app.userInterface
@@ -83,3 +88,55 @@ class CommunicationManagerServer:
                         print('Faced Exception:')
                         print(e)
         print('Program complete')
+
+    def listen_and_execute_incoming_commands(self, print_method=print):
+        # setup items
+        app = adsk.core.Application.get()
+        ui = app.userInterface
+        design = app.activeProduct
+        rootComp = design.rootComponent
+
+        # Start listening to the socket
+        async def handle_echo(reader, writer):
+
+            nonlocal app, ui, design, rootComp
+
+            data = await reader.read(1024)
+            print('data received:', data)
+            message = data.decode()
+            print('decoded message:', message)
+            print('Executing message...')
+            try:
+                exec(message)
+                print('Message finished executing')
+            except Exception as e:
+                print('Message was not executable')
+                print(e)
+            # addr = writer.get_extra_info('peername')
+
+            # print(f"Received {message!r} from {addr!r}")
+
+            print(f"Send: {message!r}")
+            print()
+            writer.write(data)
+            await writer.drain()
+
+            # print("Close the connection")
+            writer.close()
+
+        async def asyncio_main():
+            server = await asyncio.start_server(
+                handle_echo, '127.0.0.1', 4567)
+
+            # addr = server.sockets[0].getsockname()
+            # print(f'Serving on {addr}')
+
+            # print('print 1')
+            async with server:
+                await server.serve_forever()
+                # print('print 2')
+        
+        print('Starting server...')
+        asyncio.run(asyncio_main())
+        # print('Program complete')
+

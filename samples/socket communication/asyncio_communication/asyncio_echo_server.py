@@ -28,4 +28,3 @@ async def main():
         print('print 2')
 
 asyncio.run(main())
-print('This is also happening at the same time')

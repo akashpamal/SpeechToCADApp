@@ -40,30 +40,30 @@ class CommunicationManagerClient {
   }
 
   Future<void> sendMessage(String message) async {
-    // await this.establishConnection();
+    await this.establishConnection();
     this.socket!.write(message + "\n");
     // this.refreshViewUNIMPLEMENTED();
     print('Message sent: ' + message);
   }
 
-  void createNewDocument() {
-    this.sendMessage("app = adsk.core.Application.get()");
-    this.sendMessage("ui = app.userInterface");
-    this.sendMessage(
+  Future<void> createNewDocument() async {
+    await this.sendMessage("app = adsk.core.Application.get()");
+    await this.sendMessage("ui = app.userInterface");
+    await this.sendMessage(
         "doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)");
-    this.sendMessage("design = app.activeProduct");
-    this.sendMessage("rootComp = design.rootComponent");
+    await this.sendMessage("design = app.activeProduct");
+    await this.sendMessage("rootComp = design.rootComponent");
   }
 
-  void fitCameraView() {
-    this.sendMessage("camera = app.activeViewport.camera");
-    this.sendMessage("camera.isFitView = True");
-    this.sendMessage("app.activeViewport.camera = camera");
+  Future<void> fitCameraView() async {
+    await this.sendMessage("camera = app.activeViewport.camera");
+    await this.sendMessage("camera.isFitView = True");
+    await this.sendMessage("app.activeViewport.camera = camera");
   }
 
-  void refreshViewUNIMPLEMENTED() {
+  Future<void> refreshViewUNIMPLEMENTED() async {
     // this.sendMessage("adsk.doEvents()");
-    this.sendMessage("app.activeViewport.refresh()");
+    await this.sendMessage("app.activeViewport.refresh()");
   }
 }
 //

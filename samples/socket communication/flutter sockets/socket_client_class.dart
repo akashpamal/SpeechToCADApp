@@ -9,6 +9,8 @@ void main() async {
   await Future.delayed(Duration(seconds: 2));
   socketClientObject.sendMessage("Message 14");
 
+  socketClientObject.close();
+
   // listen for responses from the server
   // socket.listen(
   //   // handle data from the server
@@ -50,11 +52,16 @@ class SocketClientClass {
   }
 
   Future<void> sendMessage(String message) async {
+    this._establishConnection();
     if (this.isConnectionEstablished) {
       print('Client: $message');
       this.socket!.write(message);
     } else {
       print('Client is not connected');
     }
+  }
+
+  void close() {
+    this.socket!.close();
   }
 }
