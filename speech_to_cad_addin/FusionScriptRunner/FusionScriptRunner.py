@@ -42,14 +42,15 @@ class CommunicationManagerServer:
         pass
 
     def listen_and_execute_incoming_commands(self, print_method=print):
+        # setup items
         app = adsk.core.Application.get()
-        # app.UpdateOpListSetting = tagFMUpdateOpListSetting.eUOL_Never;
-        doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)
-        # app.activeV
         ui = app.userInterface
+        doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)
         design = app.activeProduct
         rootComp = design.rootComponent
-        sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)
+        # sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)
+
+        # Start listening to the socket
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((CommunicationManagerServer.HOST, CommunicationManagerServer.PORT))
             # s.setblocking(False)

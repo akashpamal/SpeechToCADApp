@@ -39,47 +39,25 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("SpeechToCAD"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              controller: textEditingController,
-            ),
             TextButton(
               onPressed: () {
-                communicationManager
-                    .sendMessage("app = adsk.core.Application.get()");
-                // communicationManager.sendMessage("exit()");
+                communicationManager.createNewDocument();
               },
-              child: Text("Command 1"),
-            ),
-            TextButton(
-              onPressed: () {
-                communicationManager.sendMessage("ui = app.userInterface");
-              },
-              child: Text("Command 2"),
-            ),
-            TextButton(
-              onPressed: () {
-                communicationManager.sendMessage("design = app.activeProduct");
-              },
-              child: Text("Command 3"),
-            ),
-            TextButton(
-              onPressed: () {
-                communicationManager
-                    .sendMessage("rootComp = design.rootComponent");
-              },
-              child: Text("Command 4"),
+              child: Text("Create New Document"),
             ),
             TextButton(
               onPressed: () {
                 communicationManager.sendMessage(
                     "sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
               },
-              child: Text("Command 5"),
+              child: Text("Start Sketch"),
             ),
             TextButton(
               onPressed: () {
@@ -107,12 +85,6 @@ class HomePage extends StatelessWidget {
               },
               child: Text("exit()"),
             ),
-            TextButton(
-              onPressed: () {
-                communicationManager.sendMessage("break");
-              },
-              child: Text("break"),
-            ),
           ],
         ),
       ),
@@ -120,11 +92,11 @@ class HomePage extends StatelessWidget {
         onPressed: () {
           // print("Floating Action Button pressed");
           // communicationManager.establishConnection();
-          communicationManager.sendMessage(textEditingController.text);
+          communicationManager.sendMessage("adsk.doEvents()");
           // mainConnection();
           // print(textEditingController.text);
         },
-        child: Icon(Icons.wifi),
+        child: Icon(Icons.refresh),
       ),
     );
   }

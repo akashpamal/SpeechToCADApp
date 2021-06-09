@@ -34,7 +34,6 @@ class CommunicationManagerClient {
           print(error);
           socket.destroy();
         },
-        
 
         // handle server ending connection
         onDone: () {
@@ -50,10 +49,19 @@ class CommunicationManagerClient {
   Future<void> sendMessage(String message) async {
     if (this.isConnectionEstablished) {
       print('Client: $message');
-      this.socket!.write(message);
+      this.socket!.write(message + "\n");
+      this.socket!.write("adsk.doEvents()");
     } else {
       print('Client is not connected');
     }
+  }
+
+  void createNewDocument() {
+    this.sendMessage("app = adsk.core.Application.get()");
+    this.sendMessage("ui = app.userInterface");
+    this.sendMessage("doc = app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)");
+    this.sendMessage("design = app.activeProduct");
+    this.sendMessage("rootComp = design.rootComponent");
   }
 }
 //
