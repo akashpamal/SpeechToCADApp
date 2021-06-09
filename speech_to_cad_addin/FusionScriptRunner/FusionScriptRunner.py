@@ -28,10 +28,6 @@ def run(context):
 
 
         # Create a new sketch on the xy plane.
-
-        """
-        # Do not delete this section – it's used for parsing
-        """
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
@@ -61,11 +57,13 @@ class CommunicationManagerServer:
             conn, addr = s.accept()
             # conn.setblocking(0)
             print('Server accepted')
+            conn.settimeout(3)
             with conn:
                 print("Connected by", addr)
                 while True:
                     # print(time.perf_counter())
                     print('Waiting for new data:')
+                    conn.settimeout(3)
                     data = conn.recv(1024)
                     if not data:
                         print('not data if-statement triggered')

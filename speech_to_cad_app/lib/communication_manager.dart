@@ -42,8 +42,8 @@ class CommunicationManagerClient {
   Future<void> sendMessage(String message) async {
     // await this.establishConnection();
     this.socket!.write(message + "\n");
-    this.refreshView();
-    print('Messge sent: ' + message);
+    // this.refreshViewUNIMPLEMENTED();
+    print('Message sent: ' + message);
   }
 
   void createNewDocument() {
@@ -61,8 +61,8 @@ class CommunicationManagerClient {
     this.sendMessage("app.activeViewport.camera = camera");
   }
 
-  void refreshView() {
-    // communicationManager.sendMessage("adsk.doEvents()");
+  void refreshViewUNIMPLEMENTED() {
+    // this.sendMessage("adsk.doEvents()");
     this.sendMessage("app.activeViewport.refresh()");
   }
 }

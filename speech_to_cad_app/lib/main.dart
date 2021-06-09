@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                communicationManager.sendMessage("adsk.doEvents()");
+                communicationManager.refreshViewUNIMPLEMENTED();
               },
               child: Text("Refresh screen"),
             ),
@@ -97,7 +97,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // print("Floating Action Button pressed");
-          communicationManager.refreshView();
+          communicationManager.refreshViewUNIMPLEMENTED();
           // communicationManager.sendMessage("adsk.doEvents()");
           // app.activeViewport.refresh()
           // mainConnection();
