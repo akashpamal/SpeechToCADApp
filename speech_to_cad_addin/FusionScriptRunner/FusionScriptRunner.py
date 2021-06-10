@@ -91,6 +91,7 @@ class CommunicationManagerServer:
 
     def listen_and_execute_incoming_commands(self, print_method=print):
         # setup items
+        global app, ui, design, rootComp
         app = adsk.core.Application.get()
         ui = app.userInterface
         design = app.activeProduct
@@ -99,7 +100,7 @@ class CommunicationManagerServer:
         # Start listening to the socket
         async def handle_echo(reader, writer):
 
-            nonlocal app, ui, design, rootComp
+            global app, ui, design, rootComp
 
             data = await reader.read(1024)
             print('data received:', data)

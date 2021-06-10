@@ -63,7 +63,7 @@ class CommunicationManagerClient {
 
   Future<void> refreshViewUNIMPLEMENTED() async {
     // this.sendMessage("adsk.doEvents()");
-    await this.sendMessage("app.activeViewport.refresh()");
+    await this.sendMessage("global app; app.activeViewport.refresh()");
   }
 }
 //

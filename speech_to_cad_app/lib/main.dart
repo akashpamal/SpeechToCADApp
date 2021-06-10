@@ -54,26 +54,26 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.sendMessage("nonlocal sketch");
+                // await communicationManager.sendMessage("");
                 // await Future.delayed(Duration(seconds: 2));
                 await communicationManager.sendMessage(
-                    "sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
+                    "global sketch;sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
               },
               child: Text("Start Sketch"),
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.sendMessage("nonlocal rec1");
+                // await communicationManager.sendMessage("");
                 await communicationManager.sendMessage(
-                    "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
+                    "global sketch, rec1;rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
               },
               child: Text("Square Sketch"),
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.sendMessage("nonlocal extrude");
+                // await communicationManager.sendMessage("");
                 await communicationManager.sendMessage(
-                    "extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
+                    "global sketch, rec1, extrude;extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
               },
               child: Text("Cube Extrusion"),
             ),
