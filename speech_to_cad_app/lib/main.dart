@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import 'CAD Classes/all_objects_2d.dart';
+import 'CAD Classes/all_objects_3d.dart';
 
 import 'package:speech_to_cad_app/communication_manager.dart';
 
@@ -79,15 +81,23 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.refreshViewUNIMPLEMENTED();
+                await communicationManager.refreshView();
               },
               child: Text("Refresh screen"),
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.fitCameraView();
+                // var mySquare = Square(5);
+                // print('Side length of mySquare: ' +
+                //     mySquare.properties['sideLength'].toString());
+                communicationManager.addGlobalVariable('sketch');
+                communicationManager.addGlobalVariable('rec1');
+                communicationManager.addGlobalVariable('extrude');
+                var myCube = Cube(5);
+                await communicationManager
+                    .sendMessage(myCube.toStringFusion());
               },
-              child: Text("Fit Camera View"),
+              child: Text("Make cube with object"),
             ),
             TextButton(
               onPressed: () async {
@@ -101,7 +111,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // print("Floating Action Button pressed");
-          communicationManager.refreshViewUNIMPLEMENTED();
+          communicationManager.refreshView();
           // communicationManager.sendMessage("adsk.doEvents()");
           // app.activeViewport.refresh()
           // mainConnection();

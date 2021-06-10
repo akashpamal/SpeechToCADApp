@@ -103,7 +103,7 @@ class CommunicationManagerServer:
             global app, ui, design, rootComp
 
             data = await reader.read(1024)
-            print('data received:', data)
+            # print('data received:', data)
             message = data.decode()
             print('decoded message:', message)
             print('Executing message...')

@@ -5,9 +5,9 @@ import 'dart:typed_data';
 class CommunicationManagerClient {
   // This is the client side of the socket
   Socket? socket = null;
+  List<String> globalPythonVariables = [];
 
   CommunicationManagerClient() {
-    print('Constructor for SocketClientClass');
     this.establishConnection();
   }
 
@@ -39,11 +39,19 @@ class CommunicationManagerClient {
     );
   }
 
+  void addGlobalVariable(String globalVariable) {
+    this.globalPythonVariables.add(globalVariable);
+  }
+  
   Future<void> sendMessage(String message) async {
     await this.establishConnection();
-    this.socket!.write(message + "\n");
+    String globalPythonVariablesString = 'global ' + this.globalPythonVariables.join(', ') + '\n';
+
+    String sendingMessage = globalPythonVariablesString + message + "\n";
+    this.socket!.write(sendingMessage);
+
     // this.refreshViewUNIMPLEMENTED();
-    print('Message sent: ' + message);
+    print('Message sent: ' + sendingMessage);
   }
 
   Future<void> createNewDocument() async {
@@ -55,13 +63,13 @@ class CommunicationManagerClient {
     await this.sendMessage("rootComp = design.rootComponent");
   }
 
-  Future<void> fitCameraView() async {
+  Future<void> fitCameraViewBROKEN() async {
     await this.sendMessage("camera = app.activeViewport.camera");
     await this.sendMessage("camera.isFitView = True");
     await this.sendMessage("app.activeViewport.camera = camera");
   }
 
-  Future<void> refreshViewUNIMPLEMENTED() async {
+  Future<void> refreshView() async {
     // this.sendMessage("adsk.doEvents()");
     await this.sendMessage("global app; app.activeViewport.refresh()");
   }

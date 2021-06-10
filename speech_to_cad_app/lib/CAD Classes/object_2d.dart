@@ -34,18 +34,21 @@ class Object2D {
   }
 
   String toStringFusion() {
+    // return 'global sketch; sketch = rootComp.sketches.add(rootComp.xYConstructionPlane);';
+    return 'sketch = rootComp.sketches.add(${this.sketchPlane})\n';
     throw Exception("This method is not implemented");
   }
 
   void setProperty(propertyName, value) {
     if (!this.properties.containsKey(propertyName)) {
-      throw Exception('\'$propertyName\' is not a property of {self.object_2d_name}');
+      throw Exception('\'$propertyName\' is not a property of \'${this.object2DName}\'');
     }
   }
   
   String? getProperty(propertyName) {
     if (!this.properties.containsKey(propertyName)) {
-      throw Exception('\'$propertyName\' is not a property of {self.object_2d_name}');
+      throw Exception('\'$propertyName\' is not a property of \'${this.object2DName}\'');
     }
+    return this.properties[propertyName].toString();
   }
 }
