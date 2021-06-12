@@ -58,6 +58,7 @@ class HomePage extends StatelessWidget {
               onPressed: () async {
                 // await communicationManager.sendMessage("");
                 // await Future.delayed(Duration(seconds: 2));
+                communicationManager.addGlobalVariable('sketch');
                 await communicationManager.sendMessage(
                     "global sketch;sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
               },
@@ -66,16 +67,18 @@ class HomePage extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 // await communicationManager.sendMessage("");
+                communicationManager.addGlobalVariable('rec1');
                 await communicationManager.sendMessage(
-                    "global sketch, rec1;rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
+                    "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
               },
               child: Text("Square Sketch"),
             ),
             TextButton(
               onPressed: () async {
                 // await communicationManager.sendMessage("");
+                communicationManager.addGlobalVariable('extrude');
                 await communicationManager.sendMessage(
-                    "global sketch, rec1, extrude;extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
+                    "extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
               },
               child: Text("Cube Extrusion"),
             ),
@@ -94,6 +97,7 @@ class HomePage extends StatelessWidget {
                 communicationManager.addGlobalVariable('rec1');
                 communicationManager.addGlobalVariable('extrude');
                 var myCube = Cube(5);
+                print('Cube toStringFusion:' + myCube.toStringFusion());
                 await communicationManager
                     .sendMessage(myCube.toStringFusion());
               },

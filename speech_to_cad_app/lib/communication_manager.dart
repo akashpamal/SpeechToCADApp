@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:speech_to_cad_app/python_variable_manager.dart';
 
 class CommunicationManagerClient {
   // This is the client side of the socket
   Socket? socket = null;
   List<String> globalPythonVariables = [];
+  PythonVariableManager pythonVariableManager = PythonVariableManager();
 
   CommunicationManagerClient() {
-    this.establishConnection();
+    this._establishConnection();
   }
 
-  Future<void> establishConnection() async {
+  Future<void> _establishConnection() async {
     final socket = await Socket.connect('localhost', 4567);
     print('Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
     // socket.asBroadcastStream()
@@ -40,14 +42,18 @@ class CommunicationManagerClient {
   }
 
   void addGlobalVariable(String globalVariable) {
-    this.globalPythonVariables.add(globalVariable);
+    // this.globalPythonVariables.add(globalVariable);
+    this.pythonVariableManager.addGlobalVariable(globalVariable);
   }
-  
-  Future<void> sendMessage(String message) async {
-    await this.establishConnection();
-    String globalPythonVariablesString = 'global ' + this.globalPythonVariables.join(', ') + '\n';
 
-    String sendingMessage = globalPythonVariablesString + message + "\n";
+  Future<void> sendMessage(String message) async {
+    await this._establishConnection();
+    // String globalPythonVariablesString = 'global ' + this.globalPythonVariables.join(', ') + '\n';
+
+    String sendingMessage =
+        this.pythonVariableManager.getGlobalVariablesAsString() +
+            message +
+            "\n";
     this.socket!.write(sendingMessage);
 
     // this.refreshViewUNIMPLEMENTED();
