@@ -59,8 +59,9 @@ class HomePage extends StatelessWidget {
                 // await communicationManager.sendMessage("");
                 // await Future.delayed(Duration(seconds: 2));
                 communicationManager.addGlobalVariable('sketch');
-                await communicationManager.sendMessage(
+                bool completedSuccesfully = await communicationManager.sendMessage(
                     "global sketch;sketch = rootComp.sketches.add(rootComp.xYConstructionPlane)");
+                showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Start Sketch"),
             ),
@@ -68,8 +69,9 @@ class HomePage extends StatelessWidget {
               onPressed: () async {
                 // await communicationManager.sendMessage("");
                 communicationManager.addGlobalVariable('rec1');
-                await communicationManager.sendMessage(
+                bool completedSuccesfully = await communicationManager.sendMessage(
                     "rec1 = sketch.sketchCurves.sketchLines.addTwoPointRectangle(adsk.core.Point3D.create(0, 0, 0), adsk.core.Point3D.create(20, 20, 0))");
+                showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Square Sketch"),
             ),
@@ -77,14 +79,16 @@ class HomePage extends StatelessWidget {
               onPressed: () async {
                 // await communicationManager.sendMessage("");
                 communicationManager.addGlobalVariable('extrude');
-                await communicationManager.sendMessage(
+                bool completedSuccesfully =  await communicationManager.sendMessage(
                     "extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
+                showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Cube Extrusion"),
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.refreshView();
+                bool completedSuccesfully = await communicationManager.refreshView();
+                showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Refresh screen"),
             ),
@@ -98,14 +102,15 @@ class HomePage extends StatelessWidget {
                 communicationManager.addGlobalVariable('extrude');
                 var myCube = Cube(5);
                 print('Cube toStringFusion:' + myCube.toStringFusion());
-                await communicationManager
-                    .sendMessage(myCube.toStringFusion());
+                bool completedSuccesfully = await communicationManager.sendMessage(myCube.toStringFusion());
+                showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Make cube with object"),
             ),
             TextButton(
               onPressed: () async {
-                await communicationManager.sendMessage("exit()");
+                bool completedSuccesfully = await communicationManager.sendMessage("exit()");
+                showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("exit()"),
             ),
@@ -125,6 +130,25 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+  void showFusionUnavailableIfNecessary(var context, bool completedSuccessfully) {
+    if (!completedSuccessfully) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              "Fusion360 unavailable",
+              textAlign: TextAlign.center,
+            ),
+            content: const Text(
+              "Please run FusionScriptRunner from Fusion360 and try again",
+              textAlign: TextAlign.center,
+            )
+          // content: const Text("AlertDialog Description"),
+        ),
+      );
+    }
+  }
+
 }
 
 // void mainConnection() async {

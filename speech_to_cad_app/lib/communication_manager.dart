@@ -10,11 +10,19 @@ class CommunicationManagerClient {
   PythonVariableManager pythonVariableManager = PythonVariableManager();
 
   CommunicationManagerClient() {
-    this._establishConnection();
+    // this._establishConnection();
   }
 
-  Future<void> _establishConnection() async {
-    final socket = await Socket.connect('localhost', 4567);
+  Future<bool> _establishConnection() async {
+    var socket;
+    try {
+      socket = await Socket.connect('localhost', 4567);
+    } on Exception catch(_) {
+      print('Exception triggered in _establishConnection, server not available');
+      // print(_);
+      return false;
+    }
+
     print('Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
     // socket.asBroadcastStream()
     this.socket = socket;
@@ -29,6 +37,7 @@ class CommunicationManagerClient {
 
       // handle errors
       onError: (error) {
+        // print('onError clause triggered:');
         print(error);
         socket.destroy();
       },
@@ -39,6 +48,7 @@ class CommunicationManagerClient {
         socket.destroy();
       },
     );
+    return true;
   }
 
   void addGlobalVariable(String globalVariable) {
@@ -46,8 +56,12 @@ class CommunicationManagerClient {
     this.pythonVariableManager.addGlobalVariable(globalVariable);
   }
 
-  Future<void> sendMessage(String message) async {
-    await this._establishConnection();
+  Future<bool> sendMessage(String message) async {
+    bool connectionEstablished = await this._establishConnection();
+    if (!connectionEstablished) { // The server isn't available, so return false
+      print('Server was not avaialble, not sending message');
+      return false;
+    }
     // String globalPythonVariablesString = 'global ' + this.globalPythonVariables.join(', ') + '\n';
 
     String sendingMessage =
@@ -58,6 +72,7 @@ class CommunicationManagerClient {
 
     // this.refreshViewUNIMPLEMENTED();
     print('Message sent: ' + sendingMessage);
+    return true; // return true if the message was sent succesfully
   }
 
   Future<void> createNewDocument() async {
@@ -75,9 +90,10 @@ class CommunicationManagerClient {
     await this.sendMessage("app.activeViewport.camera = camera");
   }
 
-  Future<void> refreshView() async {
+  Future<bool> refreshView() async {
     // this.sendMessage("adsk.doEvents()");
-    await this.sendMessage("global app; app.activeViewport.refresh()");
+    bool completedSuccessfully = await this.sendMessage("global app; app.activeViewport.refresh()");
+    return completedSuccessfully;
   }
 }
 //
