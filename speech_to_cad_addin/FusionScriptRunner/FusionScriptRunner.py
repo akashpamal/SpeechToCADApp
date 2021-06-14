@@ -1,11 +1,37 @@
 print('Starting imports...')
+# import subprocess
+# import sys
+# subprocess.check_call([sys.executable, "-m", "pip", "install", "pyaudio"])
+
 import adsk.core, adsk.fusion, math, traceback
 import socket, time, asyncio
 import math
 import asyncio
-print('Imports complee')
+# import speech_recognition as sr
+print('Imports complete')
+# sys.exit()
 
-# Make the client on Fusion360 and the server on the app
+# # obtain audio from the microphone
+# recognizer = sr.Recognizer()
+# mic = sr.Microphone()
+
+
+# with mic as source:
+#     print('Adjusting for ambient noise...')
+#     recognizer.adjust_for_ambient_noise(source)
+#     print('Say something!')
+#     audio = recognizer.listen(source)
+#     print('Finished listening')
+
+#     try:
+#         print('Recognizing text...')
+#         transcription = recognizer.recognize_google(audio)
+#         print('Transcription:', transcription)
+#     except Exception:
+#         pass
+
+# print('Exiting program')
+# exit()
 
 def run(context):
     ui = None
