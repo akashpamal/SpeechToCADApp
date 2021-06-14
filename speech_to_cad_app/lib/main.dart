@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'CAD Classes/all_objects_2d.dart';
 import 'CAD Classes/all_objects_3d.dart';
+import 'text_parser.dart';
 
 import 'package:speech_to_cad_app/communication_manager.dart';
 
@@ -36,6 +37,11 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   CommunicationManagerClient communicationManager =
       CommunicationManagerClient();
+
+  // print("Creating text parser");
+
+  TextParser textParser = TextParser();
+
   final textEditingController = TextEditingController();
 
   @override
@@ -79,7 +85,7 @@ class HomePage extends StatelessWidget {
               onPressed: () async {
                 // await communicationManager.sendMessage("");
                 communicationManager.addGlobalVariable('extrude');
-                bool completedSuccesfully =  await communicationManager.sendMessage(
+                bool completedSuccesfully = await communicationManager.sendMessage(
                     "extrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(20), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)");
                 showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
@@ -87,7 +93,8 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                bool completedSuccesfully = await communicationManager.refreshView();
+                bool completedSuccesfully =
+                    await communicationManager.refreshView();
                 showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Refresh screen"),
@@ -102,35 +109,39 @@ class HomePage extends StatelessWidget {
                 communicationManager.addGlobalVariable('extrude');
                 var myCube = Cube(5);
                 print('Cube toStringFusion:' + myCube.toStringFusion());
-                bool completedSuccesfully = await communicationManager.sendMessage(myCube.toStringFusion());
+                bool completedSuccesfully = await communicationManager
+                    .sendMessage(myCube.toStringFusion());
                 showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("Make cube with object"),
             ),
             TextButton(
               onPressed: () async {
-                bool completedSuccesfully = await communicationManager.sendMessage("exit()");
+                bool completedSuccesfully =
+                    await communicationManager.sendMessage("exit()");
                 showFusionUnavailableIfNecessary(context, completedSuccesfully);
               },
               child: Text("exit()"),
             ),
+            TextButton(
+                onPressed: () {
+                  textParserTest();
+                },
+                child: Text("Test TextParser")),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // print("Floating Action Button pressed");
           communicationManager.refreshView();
-          // communicationManager.sendMessage("adsk.doEvents()");
-          // app.activeViewport.refresh()
-          // mainConnection();
-          // print(textEditingController.text);
         },
         child: Icon(Icons.build),
       ),
     );
   }
-  void showFusionUnavailableIfNecessary(var context, bool completedSuccessfully) {
+
+  void showFusionUnavailableIfNecessary(
+      var context, bool completedSuccessfully) {
     if (!completedSuccessfully) {
       showDialog(
         context: context,
@@ -143,12 +154,21 @@ class HomePage extends StatelessWidget {
               "Please run FusionScriptRunner from Fusion360 and try again",
               textAlign: TextAlign.center,
             )
-          // content: const Text("AlertDialog Description"),
-        ),
+            // content: const Text("AlertDialog Description"),
+            ),
       );
     }
   }
 
+  void textParserTest() {
+    print('new test for textparser');
+    TextParser textParser = TextParser();
+    var allObjects =
+        textParser.textToObjects("Make me a cube with side length 5");
+    allObjects.forEach((element) {
+      print(element);
+    });
+  }
 }
 
 // void mainConnection() async {

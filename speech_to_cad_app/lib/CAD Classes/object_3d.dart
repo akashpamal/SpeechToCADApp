@@ -4,11 +4,13 @@ class PrimitiveObject3D {
   var sketchProfiles;
   var alternativeProperties;
 
+
+
   PrimitiveObject3D() {
     this.objectType = 'Primitive Object3D';
     this.objectProperties = Map();
     this.sketchProfiles = [];
-    this.alternativeProperties = [];
+    this.alternativeProperties = Map();
   }
 
   void getNeededProperties() {
@@ -44,7 +46,12 @@ class PrimitiveObject3D {
     return this.objectProperties[propertyName];
   }
 
-  List getPropertyList() {
-    return new List.from(this.objectProperties.keys)..addAll(this.alternativeProperties.keys);
+  List<String> getPropertyList() {
+    // print('ObjectProperties keys:');
+    // List.from(this.objectProperties.keys);
+    // print(this.objectProperties.keys.runtimeType);
+    // print('alternativeProperties keys:');
+    // print(this.alternativeProperties.keys.runtimeType);
+    return new List.from(this.objectProperties.keys)..addAll(List.from(this.alternativeProperties.keys));
   }
 }
