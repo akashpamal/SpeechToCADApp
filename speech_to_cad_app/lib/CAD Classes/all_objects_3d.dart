@@ -21,10 +21,14 @@ import 'all_objects_2d.dart';
 // }
 
 class Cube extends PrimitiveObject3D {
-  Cube(sideLength) {
+  Cube({sideLength=null}) {
     this.objectType = 'cube';
-    this.objectProperties['sideLength'] = sideLength.toString();
+    this.objectProperties['side_length'] = sideLength.toString();
   }
+
+  // String toStringDisplay() {
+  //   return super.toStringDisplay();
+  // }
 
   String toStringFusion() {
     String part0 = super.toStringFusion();

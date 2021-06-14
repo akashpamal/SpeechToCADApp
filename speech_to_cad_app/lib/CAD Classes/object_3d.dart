@@ -4,8 +4,6 @@ class PrimitiveObject3D {
   var sketchProfiles;
   var alternativeProperties;
 
-
-
   PrimitiveObject3D() {
     this.objectType = 'Primitive Object3D';
     this.objectProperties = Map();
@@ -17,8 +15,16 @@ class PrimitiveObject3D {
     throw Exception("This method is not implemented");
   }
 
-  void toStringDisplay() {
-      throw Exception("This method is not implemented");
+  String toStringDisplay() {
+    List<String> attributesList = [];
+    this.objectProperties.forEach((key, value) {
+      attributesList.add(key + ': ' + value.toString());
+    });
+    String returnString = this.objectType.toString() +
+        this.objectType.substring(1).toLowerCase() +
+        '||' +
+        attributesList.join(', ');
+    return returnString;
   }
 
   String toStringFusion() {
@@ -36,14 +42,16 @@ class PrimitiveObject3D {
       this.objectProperties[objectProperty] = adjustmentFunction[value];
       return;
     }
-    throw Exception("\'$propertyName\' is not a property of \'${this.objectType}\'");
+    throw Exception(
+        "\'$propertyName\' is not a property of \'${this.objectType}\'");
   }
 
   String getProperty(propertyName) {
     if (!this.objectProperties.containsKey(propertyName)) {
-      throw Exception("\'$propertyName\' is not a property of \'${this.objectType}\'");
+      throw Exception(
+          "\'$propertyName\' is not a property of \'${this.objectType}\'");
     }
-    return this.objectProperties[propertyName];
+    return this.objectProperties[propertyName].toString();
   }
 
   List<String> getPropertyList() {
@@ -52,6 +60,7 @@ class PrimitiveObject3D {
     // print(this.objectProperties.keys.runtimeType);
     // print('alternativeProperties keys:');
     // print(this.alternativeProperties.keys.runtimeType);
-    return new List.from(this.objectProperties.keys)..addAll(List.from(this.alternativeProperties.keys));
+    return new List.from(this.objectProperties.keys)
+      ..addAll(List.from(this.alternativeProperties.keys));
   }
 }

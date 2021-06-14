@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
                 communicationManager.addGlobalVariable('sketch');
                 communicationManager.addGlobalVariable('rec1');
                 communicationManager.addGlobalVariable('extrude');
-                var myCube = Cube(5);
+                var myCube = Cube(sideLength: 5);
                 print('Cube toStringFusion:' + myCube.toStringFusion());
                 bool completedSuccesfully = await communicationManager
                     .sendMessage(myCube.toStringFusion());
@@ -161,13 +161,14 @@ class HomePage extends StatelessWidget {
   }
 
   void textParserTest() {
-    print('new test for textparser');
+    // print('new test for textparser');
     TextParser textParser = TextParser();
     var allObjects =
-        textParser.textToObjects("Make me a cube with side length 5");
+        textParser.textToObjects("Make me a cube with side_length 17");
     allObjects.forEach((element) {
-      print(element);
+      print(element.toStringDisplay());
     });
+    print(allObjects[0].getProperty('side_length'));
   }
 }
 

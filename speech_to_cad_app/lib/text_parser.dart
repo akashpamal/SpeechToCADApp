@@ -8,14 +8,14 @@ class TextParser {
 
   TextParser() {
     this.options = {
-      () => new Cube(5): ['cube', 'box']
+      () => new Cube(): ['cube', 'box']
     };
 
     var tempNewMap = Map();
     // print("TextParser constructor invoked");
-    print(this.options!.entries.toString());
+    // print(this.options!.entries.toString());
     this.options!.forEach((key, value) {
-      print(value);
+      // print(value);
       value.forEach((element) {
         tempNewMap[element] = key;
       });
@@ -45,45 +45,60 @@ class TextParser {
     PrimitiveObject3D objectInProgress =
         this.options![allWords[startingIndex]]();
     List<String> possibleProperties = objectInProgress.getPropertyList();
+    // print('initializing possible properties list: ' +
+    //     possibleProperties.join(', '));
     bool loaded = false;
     var property = null;
     var value = null;
-    allWords.sublist(startingIndex).forEach(
-      (word) {
-        if (possibleProperties.contains(word)) {
-          property = word;
-          if (loaded) {
-            objectInProgress.setProperty(property, value);
-            loaded = false;
-            property = null;
-            value = null;
-          } else {
-            loaded = true;
-          }
-        }
-        try {
-          value = int.parse(word);
-          if (loaded) {
-            objectInProgress.setProperty(property, value);
-            loaded = false;
-            property = null;
-            value = null;
-          } else {
-            loaded = true;
-          }
-        } on Exception catch (_) {}
-        if (this.options!.containsKey(word)) {
-          createdObjects.add(objectInProgress);
-          objectInProgress = this.options![word]();
-          possibleProperties = objectInProgress.getPropertyList();
+    // print('allWords: ' + allWords.toString());
+    allWords.sublist(startingIndex).forEach((word) {
+      // print('word: ' + word.toString());
+      // print('possible Properties: ' + possibleProperties.toString());
+      // print('Word in possibleProperties: ' +
+      //     possibleProperties.contains(word).toString());
+      if (possibleProperties.contains(word)) {
+        property = word;
+        // print('Possible properties contained the word: ' + word.toString());
+        if (loaded) {
+          objectInProgress.setProperty(property, value);
+          // print('Setting property for object: ' + property + ': ' + value);
           loaded = false;
           property = null;
           value = null;
+        } else {
+          loaded = true;
         }
       }
-    );
+      try {
+        // print('Attempting to extract int from word: ' + word.toString());
+        value = int.parse(word); // TODO make this parse with a float
+        // print('int successfully extracted');
+        if (loaded) {
+          // print('Attempting to set objct property');
+          objectInProgress.setProperty(property, value);
+          // print('Object property successfully set');
+          // print('Setting property for object: ' + property + ': ' + value.toString());
+          loaded = false;
+          property = null;
+          value = null;
+        } else {
+          loaded = true;
+        }
+      } on Exception catch (_) {
+        // print('Exception triggered in main.dart');
+        // print('Exceptrion triggered with word: ' + word.toString());
+      }
+      if (this.options!.containsKey(word)) {
+        createdObjects.add(objectInProgress);
+        // print('Creating new object');
+        objectInProgress = this.options![word]();
+        possibleProperties = objectInProgress.getPropertyList();
+        loaded = false;
+        property = null;
+        value = null;
+      }
+    });
     createdObjects.add(objectInProgress);
     return createdObjects.sublist(1);
   }
-
 }
