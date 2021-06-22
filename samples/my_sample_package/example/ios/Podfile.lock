@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - my_sample_package (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - my_sample_package (from `.symlinks/plugins/my_sample_package/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  my_sample_package:
+    :path: ".symlinks/plugins/my_sample_package/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  my_sample_package: 77ce65f40367588e3788791d1242e37ebe50245a
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1
