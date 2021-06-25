@@ -12,10 +12,11 @@ public class SwiftMySamplePackagePlugin: NSObject, FlutterPlugin {
     switch call.method {
     case "getPlatformSpecificStringManual":
         print("This is from iOS")
-        result(nil)
+        result("This is the return method from iOS")
         break
     case "getPlatformVersion":
         print("This is the other method")
+        result("This is the result of the other method from iOS")
         break
     default:
         result(FlutterMethodNotImplemented)

@@ -11,7 +11,10 @@ public class MySamplePackagePlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "getPlatformVersion":
-      result("macOS " + ProcessInfo.processInfo.operatingSystemVersionString)
+      result("macOS " + ProcessInfo.processInfo.operatingSystemVersionString + "lalala")
+    case "myCustomMethod":
+        result("This is the result from my custom method")
+        break
     default:
       result(FlutterMethodNotImplemented)
     }
