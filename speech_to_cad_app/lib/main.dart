@@ -173,8 +173,10 @@ class HomePageButtonBased extends StatelessWidget {
 }
 
 class HomePageTextBased extends StatelessWidget {
-  final instructionTextFieldController = TextEditingController(text: "make a cube with side length 5");
+  final instructionTextFieldController =
+      TextEditingController(text: "make a cube with side length 5");
   final textParser = TextParser();
+  final communicationManager = CommunicationManagerClient();
 
   @override
   Widget build(BuildContext context) {
@@ -201,11 +203,18 @@ class HomePageTextBased extends StatelessWidget {
                 objectList.forEach((element) {
                   print(element.toString());
                   // com
-                }); 
-
-
+                });
+                communicationManager.addGlobalVariable('extrude');
+                communicationManager
+                    .sendMessage(objectList[0].toStringFusion());
               },
               child: Text("Execute commands"),
+            ),
+            TextButton(
+              onPressed: () {
+                this.communicationManager.sendMessage("exit()");
+              },
+              child: Text('Exit'),
             )
           ],
         ),

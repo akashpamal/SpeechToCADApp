@@ -38,10 +38,10 @@ class Cube extends PrimitiveObject3D {
 
   String toStringFusion() {
     String part0 = super.toStringFusion();
-    var square = new Square(this.getProperty('sideLength').toString());
+    var square = new Square(this.getProperty('side_length').toString());
     String part1 = square.toStringFusion();
     String part2 =
-        "# DRAWING A CUBE\nextrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(${this.getProperty('sideLength').toString()}), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)\n";
+        "# DRAWING A CUBE\nextrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(${this.getProperty('side_length').toString()}), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)\n";
     return part0 + part1 + part2;
   }
 
