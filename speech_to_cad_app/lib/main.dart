@@ -201,7 +201,7 @@ class HomePageTextBased extends StatelessWidget {
                 objectList.forEach((element) {
                   print(element.toString());
                   // com
-                });
+                }); 
 
 
               },
