@@ -15,7 +15,7 @@ class PrimitiveObject3D {
     throw Exception("This method is not implemented");
   }
 
-  String toStringDisplay() {
+  String toString() {
     List<String> attributesList = [];
     this.objectProperties.forEach((key, value) {
       attributesList.add(key + ': ' + value.toString());
@@ -36,12 +36,16 @@ class PrimitiveObject3D {
       this.objectProperties[propertyName] = value;
       return;
     }
+
     if (this.alternativeProperties.containsKey(propertyName)) {
       var objectProperty = this.alternativeProperties[propertyName][0];
+
       var adjustmentFunction = this.alternativeProperties[propertyName][1];
-      this.objectProperties[objectProperty] = adjustmentFunction[value];
+      // print('')
+      this.objectProperties[objectProperty] = adjustmentFunction(value);
       return;
     }
+
     throw Exception(
         "\'$propertyName\' is not a property of \'${this.objectType}\'");
   }

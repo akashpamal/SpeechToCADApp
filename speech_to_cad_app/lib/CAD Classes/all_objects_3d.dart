@@ -21,9 +21,15 @@ import 'all_objects_2d.dart';
 // }
 
 class Cube extends PrimitiveObject3D {
-  Cube({sideLength=null}) {
+  Cube({sideLength = null}) {
     this.objectType = 'cube';
     this.objectProperties['side_length'] = sideLength.toString();
+    this.alternativeProperties['length'] = [
+      'side_length',
+      (inputNum) {
+        return inputNum;
+      }
+    ];
   }
 
   // String toStringDisplay() {
@@ -37,5 +43,9 @@ class Cube extends PrimitiveObject3D {
     String part2 =
         "# DRAWING A CUBE\nextrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(${this.getProperty('sideLength').toString()}), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)\n";
     return part0 + part1 + part2;
+  }
+
+  String toString() {
+    return super.toString();
   }
 }
