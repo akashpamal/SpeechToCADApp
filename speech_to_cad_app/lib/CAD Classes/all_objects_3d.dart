@@ -2,23 +2,26 @@ import 'object_3d.dart';
 import 'object_2d.dart';
 import 'all_objects_2d.dart';
 
-// class Sphere extends PrimitiveObject3D {
-//   Sphere(radius) {
-//     // super();
-//     this.objectType = 'sphere';
-//     this.objectProperties['radius'] = radius;
-//     this.alternativeProperties['diameter'] = ['radius', (radius) {
-//       return radius / 2;
-//     }
-//     ];
-//   }
-//
-//   String? toStringFusion() {
-//     var part0 = super.toString();
-//     var circle = Circle(this.getProperty('radius'));
-//     part1 = circle.tostringFusion();
-//   }
-// }
+class Sphere extends PrimitiveObject3D {
+  Sphere(radius) {
+    this.objectType = "sphere";
+    this.objectProperties["radius"] = radius;
+    this.alternativeProperties['diameter'] = [
+      "radius",
+      (diameter) {
+        return diameter / 2;
+      }
+    ];
+  }
+
+  String toStringFusion() {
+    String part0 = super.toStringFusion();
+    Circle circle = Circle(this.getProperty('radius'));
+    String part1 = circle.toStringFusion();
+    String part2;
+    return "null";
+  }
+}
 
 class Cube extends PrimitiveObject3D {
   Cube({sideLength}) {
@@ -31,10 +34,6 @@ class Cube extends PrimitiveObject3D {
       }
     ];
   }
-
-  // String toStringDisplay() {
-  //   return super.toStringDisplay();
-  // }
 
   String toStringFusion() {
     String part0 = super.toStringFusion();
