@@ -3,15 +3,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 class Object2D {
-  var objectType;
-  var sketchPlane;
-  var properties;
-  var object2DName;
-
-  Object2D() {
-    this.sketchPlane = 'rootComp.xYConstructionPlane';
-    this.properties = Map();
-  }
+  String objectType = "Object2D";
+  String sketchPlane = 'rootComp.xYConstructionPlane';
+  Map<String, String> properties = Map();
+  var object2DName = "Object2DName";
 
   void getNeededProperties() {
     throw Exception("This method is not implemented");
@@ -23,31 +18,29 @@ class Object2D {
         .keys
         .where((elem) => this.properties[elem] == null)
         .toList();
-    if (this.object2DName == null) {
+    if (this.object2DName == "Object2DName") {
       throw Exception("This Object2D subclass needs a name");
     }
-    if (this.sketchPlane == null) {
-      neededProperties.add('surface');
-    }
+
     // return this.objectType + ', '
     return neededProperties;
   }
 
   String toStringFusion() {
-    // return 'global sketch; sketch = rootComp.sketches.add(rootComp.xYConstructionPlane);';
     return 'sketch = rootComp.sketches.add(${this.sketchPlane})\n';
-    throw Exception("This method is not implemented");
   }
 
   void setProperty(propertyName, value) {
     if (!this.properties.containsKey(propertyName)) {
-      throw Exception('\'$propertyName\' is not a property of \'${this.object2DName}\'');
+      throw Exception(
+          '\'$propertyName\' is not a property of \'${this.object2DName}\'');
     }
   }
-  
+
   String? getProperty(propertyName) {
     if (!this.properties.containsKey(propertyName)) {
-      throw Exception('\'$propertyName\' is not a property of \'${this.object2DName}\'');
+      throw Exception(
+          '\'$propertyName\' is not a property of \'${this.object2DName}\'');
     }
     return this.properties[propertyName].toString();
   }

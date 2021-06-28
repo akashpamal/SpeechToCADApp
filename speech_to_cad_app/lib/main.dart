@@ -35,12 +35,12 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePageButtonBased extends StatelessWidget {
-  CommunicationManagerClient communicationManager =
+  final CommunicationManagerClient communicationManager =
       CommunicationManagerClient();
 
   // print("Creating text parser");
 
-  TextParser textParser = TextParser();
+  final TextParser textParser = TextParser();
 
   final textEditingController = TextEditingController();
 

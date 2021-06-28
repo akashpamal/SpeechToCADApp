@@ -5,7 +5,7 @@ import 'package:speech_to_cad_app/python_variable_manager.dart';
 
 class CommunicationManagerClient {
   // This is the client side of the socket
-  Socket? socket = null;
+  Socket? socket;
   List<String> globalPythonVariables = [];
   PythonVariableManager pythonVariableManager = PythonVariableManager();
 

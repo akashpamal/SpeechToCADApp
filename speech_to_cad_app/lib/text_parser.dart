@@ -48,8 +48,8 @@ class TextParser {
     // print('initializing possible properties list: ' +
     //     possibleProperties.join(', '));
     bool loaded = false;
-    var property = null;
-    var value = null;
+    var property;
+    var value;
     // print('allWords: ' + allWords.toString());
     allWords.sublist(startingIndex).forEach((word) {
       // print('word: ' + word.toString());

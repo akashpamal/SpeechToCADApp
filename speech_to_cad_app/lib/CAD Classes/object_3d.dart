@@ -1,15 +1,8 @@
 class PrimitiveObject3D {
-  var objectType;
-  var objectProperties;
-  var sketchProfiles;
-  var alternativeProperties;
-
-  PrimitiveObject3D() {
-    this.objectType = 'Primitive Object3D';
-    this.objectProperties = Map();
-    this.sketchProfiles = [];
-    this.alternativeProperties = Map();
-  }
+  String objectType = "Primitive Object3D";
+  Map<String, String> objectProperties = Map();
+  List<String> sketchProfiles = [];
+  Map<String, List> alternativeProperties = Map();
 
   void getNeededProperties() {
     throw Exception("This method is not implemented");
@@ -38,9 +31,9 @@ class PrimitiveObject3D {
     }
 
     if (this.alternativeProperties.containsKey(propertyName)) {
-      var objectProperty = this.alternativeProperties[propertyName][0];
+      var objectProperty = this.alternativeProperties[propertyName]![0];
 
-      var adjustmentFunction = this.alternativeProperties[propertyName][1];
+      var adjustmentFunction = this.alternativeProperties[propertyName]![1];
       // print('')
       this.objectProperties[objectProperty] = adjustmentFunction(value);
       return;
