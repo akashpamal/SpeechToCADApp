@@ -48,3 +48,26 @@ class Cube extends PrimitiveObject3D {
     return super.toString();
   }
 }
+
+class Cylinder extends PrimitiveObject3D {
+  Cylinder(radius, height) {
+    this.objectType = "cylinder";
+    this.objectProperties['radius'] = radius;
+    this.objectProperties['height'] = height;
+    // TODO add sketch plane
+    this.alternativeProperties['diameter'] = [
+      'radius',
+      (diameter) {
+        return diameter / 2;
+      }
+    ];
+  }
+
+  String toStringFusion() {
+    String part0 = super.toStringFusion();
+    Circle circle = Circle(this.getProperty('radius'));
+    String part1 = circle.toStringFusion();
+    String part2 = "# DRAWING A CYLINDER\nextrude = rootComp.features.extrudeFeatures.addSimple(sketch.profiles[-1], adsk.core.ValueInput.createByReal(${this.getProperty('height')}), adsk.fusion.FeatureOperations.NewBodyFeatureOperation)\n";
+    return part0 + part1 + part2;
+  }
+}

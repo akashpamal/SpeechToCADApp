@@ -43,7 +43,7 @@ class PrimitiveObject3D {
         "\'$propertyName\' is not a property of \'${this.objectType}\'");
   }
 
-  String getProperty(propertyName) {
+  String getProperty(String propertyName) {
     if (!this.objectProperties.containsKey(propertyName)) {
       throw Exception(
           "\'$propertyName\' is not a property of \'${this.objectType}\'");

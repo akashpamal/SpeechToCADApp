@@ -8,7 +8,8 @@ class TextParser {
 
   TextParser() {
     this.options = {
-      () => new Cube(): ['cube', 'box']
+      () => new Cube(): ['cube', 'box'],
+      () => new Cylinder("", ""): ['cylinder']
     };
 
     var tempNewMap = Map();
@@ -38,6 +39,8 @@ class TextParser {
   List textToObjects(rawText) {
     List<String> allWords = this._preProcessText(rawText);
     var createdObjects = [];
+    print('This is where my print debugs begin...');
+
     int startingIndex = allWords.indexOf(allWords
         .where((element) => this.options!.containsKey(element))
         .toList()[0]);
@@ -75,7 +78,7 @@ class TextParser {
         // print('int successfully extracted');
         if (loaded) {
           // print('Attempting to set objct property');
-          objectInProgress.setProperty(property, value);
+          objectInProgress.setProperty(property, value.toString());
           // print('Object property successfully set');
           // print('Setting property for object: ' + property + ': ' + value.toString());
           loaded = false;

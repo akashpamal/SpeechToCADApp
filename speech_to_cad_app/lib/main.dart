@@ -174,7 +174,7 @@ class HomePageButtonBased extends StatelessWidget {
 
 class HomePageTextBased extends StatelessWidget {
   final instructionTextFieldController =
-      TextEditingController(text: "make a cube with side length 5");
+      TextEditingController(text: "make a cylinder with radius 5 and height 10");
   final textParser = TextParser();
   final communicationManager = CommunicationManagerClient();
 
