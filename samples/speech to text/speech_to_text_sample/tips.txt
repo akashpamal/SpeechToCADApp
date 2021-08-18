@@ -1,8 +1,0 @@
-
-
-First of all, Make sure there are no typos in the Info.plist file. You should be able to open the file from Xcode. The file is saved at "Runner/Resources/Info.plist"
-
-If you get "No pod file found in the project directory" follow these instructions (https://stackoverflow.com/questions/36902497/cannot-install-cocoapods-no-podfile-found-in-the-project-directory):
-1. sudo gem install cocoa pods
-2. cd to the root project directory and do "pod init"
-3. Regardless of whether "pod init" worked, do "pod install" from the same directory.

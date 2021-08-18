@@ -18,6 +18,7 @@ class CommunicationManagerClient {
     try {
       socket = await Socket.connect('localhost', 4567);
     } on Exception catch(_) {
+      print(_);
       print('Exception triggered in _establishConnection, server not available');
       // print(_);
       return false;
